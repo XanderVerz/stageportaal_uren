@@ -22,6 +22,16 @@ class User extends Authenticatable
         'email',
         'password',
     ];
+    public function workedHours()
+    {
+        return $this->hasMany(Workhours::class, 'gebruiker_id');
+    }
+
+    // Relatie met instellingen
+    public function settings()
+    {
+        return $this->hasOne(Settings::class, 'gebruiker_id');
+    }
 
     /**
      * The attributes that should be hidden for serialization.
