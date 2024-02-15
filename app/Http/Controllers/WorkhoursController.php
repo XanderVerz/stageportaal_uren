@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-
+use Illuminate\Support\Facades\Auth;
 use App\Models\Workhours;
 use App\Models\Settings;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-
+use PDF;
 class WorkhoursController extends Controller
 {
     public function index()
@@ -112,4 +112,21 @@ class WorkhoursController extends Controller
             return redirect()->route('dashboard')->with('error', 'Geen toegang tot deze gegevens.');
         }
     }
+    public function generatePdf()
+    {
+        // Fetch only the data of the authenticated user
+        $workedHours = Auth::user()->workedHours;
+        $settings = Settings::first(); 
+    
+        // Fetch the name of the authenticated user
+        $userName = Auth::user()->name;
+    
+            $pdf = PDF::loadView('pdf.overview', compact('workedHours', 'settings', 'userName'));
+        
+            // Download the PDF
+    
+             return $pdf->stream('uren_en_taken_overzicht.pdf');
+     
+    }
 }
+

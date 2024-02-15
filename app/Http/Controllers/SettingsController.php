@@ -1,85 +1,94 @@
-<?php
-
+<?php 
 namespace App\Http\Controllers;
 
+use App\Models\Settings;
 use Illuminate\Http\Request;
 
 class SettingsController extends Controller
 {
-    public function create()
-    {
-        // Haal de instelbare waarden op
-        $settings = Setting::first();
+// SettingsController.php
+public function edit(Settings $settings)
+{
+    // Controleer of de huidige gebruiker de eigenaar is
+    if ($settings->gebruiker_id === auth()->user()->id) {
+        return view('settings.edit', compact('settings'));
+    } else {
+        // Toon een foutbericht of doorsturen naar de juiste pagina
+        return redirect()->route('dashboard')->with('error', 'Geen toegang tot deze instellingen.');
+    }
+}
 
-        return view('worked-hours.create', compact('settings'));
+public function update(Request $request, Settings $settings)
+{
+    // Controleer of de huidige gebruiker de eigenaar is
+    if ($settings->gebruiker_id === auth()->user()->id) {
+        // Haal alle gegevens uit het verzoek
+        $data = $request->all();
+
+        // Update het Settings-model met de ontvangen gegevens
+        $settings->update($data);
+
+        // Redirect naar de juiste pagina
+        return redirect()->route('dashboard')->with('success', 'Instellingen bijgewerkt.');
+    } else {
+        // Toon een foutbericht of doorsturen naar de juiste pagina
+        return redirect()->route('dashboard')->with('error', 'Geen toegang tot deze instellingen.');
+    }
+}
+    // Toon alle instellingen
+    public function index()
+    {
+        $settings = Settings::all();
+        return view('settings.index', compact('settings'));
     }
 
-    public function edit(Workhours $workedHour)
+    // Laat het formulier zien om instellingen toe te voegen
+    public function create()
+    {
+        return view('settings.create');
+    }
+
+    // Opslaan van de instellingen in de database
+    public function store(Request $request)
+    {
+        // Valideer de gegevens
+        $validatedData = $request->validate([
+            'start_tijd_standaard' => 'required',
+            'eind_tijd_standaard' => 'required',
+            'pauze_standaard' => 'required',
+            'praktijkopleider' => 'required',
+            'stagebegeleider' => 'required',
+            'leerbedrijf' => 'required',
+        ]);
+        // Voeg de gebruiker_id toe aan de gevalideerde gegevens
+        $validatedData['gebruiker_id'] = auth()->user()->id;
+        // Maak het worked hour object aan
+        Settings::create($validatedData);
+        return redirect()->route('settings.index')->with('success', 'Instellingen zijn toegevoegd.');
+    }
+
+    // Laat het verwijderingsformulier zien voor specifieke instellingen
+    public function delete(Settings $settings)
     {
         // Controleer of de huidige gebruiker de eigenaar is
-        if ($workedHour->gebruiker_id === auth()->user()->id) {
-            // Haal de instelbare waarden op
-            $settings = Setting::first();
-
-            return view('worked-hours.edit', compact('workedHour', 'settings'));
+        if ($settings->gebruiker_id === auth()->user()->id) {
+            return view('settings.delete', compact('settings'));
         } else {
             // Toon een foutbericht of doorsturen naar de juiste pagina
-            return redirect()->route('worked-hours.index')->with('error', 'Geen toegang tot deze gegevens.');
+            return redirect()->route('dashboard')->with('error', 'Geen toegang tot deze instellingen.');
         }
     }
 
-    public function store(Request $request)
-    {
-        // Zorg ervoor dat het gebruikers-ID wordt ingesteld op het ID van de huidige gebruiker
-        $request->merge(['gebruiker_id' => auth()->user()->id]);
-
-        // Haal de instelbare waarden op
-        $settings = Setting::first();
-
-        // Voer validatie uit
-        $validatedData = $request->validate([
-            'datum' => 'required|date|unique:workhours,datum,NULL,id,gebruiker_id,' . auth()->id(),
-            'start_tijd' => 'required|date_format:H:i',
-            'eind_tijd' => 'required|date_format:H:i|after:start_tijd',
-            'vrije_dag' => 'nullable|boolean',
-            'taken' => 'nullable|string',
-            'bijzonderheden' => 'nullable|string',
-            'gewerkte_uren' => 'required|numeric|min:0',
-            'pauze' => 'nullable|numeric|min:0', // Voeg de validatie voor pauze toe
-        ]);
-
-       
-        // Maak het worked hour object aan
-        Workhours::create($validatedData);
-
-        // Redirect naar de juiste pagina
-        return redirect()->route('/')->with('success', 'Gewerkte uren toegevoegd.');
-    }
-
-    public function update(Request $request, Workhours $workedHour)
+    // Verwijder instellingen uit de database
+    public function destroy(Settings $settings)
     {
         // Controleer of de huidige gebruiker de eigenaar is
-        if ($workedHour->gebruiker_id === auth()->user()->id) {
-            // Voer validatie uit
-            $validatedData = $request->validate([
-                'datum' => 'required|date|unique:workhours,datum,' . $workedHour->id . ',id,gebruiker_id,' . auth()->id(),
-                'start_tijd' => 'required|date_format:H:i',
-                'eind_tijd' => 'required|date_format:H:i|after:start_tijd',
-                'vrije_dag' => 'nullable|boolean',
-                'taken' => 'nullable|string',
-                'bijzonderheden' => 'nullable|string',
-                'gewerkte_uren' => 'required|numeric|min:0',
-                'pauze' => 'nullable|numeric|min:0',
-            ]);
-    
-            // Update de gewerkte uren
-            $workedHour->update($validatedData);
-    
-            // Redirect naar de juiste pagina
-            return redirect()->route('/')->with('success', 'Gewerkte uren bijgewerkt.');
+        if ($settings->gebruiker_id === auth()->user()->id) {
+            $settings->delete();
+            return redirect()->route('settings.index')->with('success', 'Instellingen zijn verwijderd.');
         } else {
             // Toon een foutbericht of doorsturen naar de juiste pagina
-            return redirect()->route('/')->with('error', 'Geen toegang tot deze gegevens.');
+            return redirect()->route('dashboard')->with('error', 'Geen toegang tot deze instellingen.');
         }
     }
 }

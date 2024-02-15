@@ -15,6 +15,7 @@ class Workhours extends Model
         'datum',
         'start_tijd',
         'eind_tijd',
+        'pauze',
         'vrije_dag',
         'taken',
         'bijzonderheden',

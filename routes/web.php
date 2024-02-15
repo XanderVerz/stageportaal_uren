@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\WorkhoursController;
 
 /*
@@ -32,6 +33,15 @@ Route::middleware('auth')->group(function () {
     Route::get('worked-hours/{workedHour}/edit', [WorkhoursController::class, 'edit'])->name('worked-hours.edit');
     Route::put('worked-hours/{workedHour}', [WorkhoursController::class, 'update'])->name('worked-hours.update');
     Route::delete('worked-hours/{workedHour}', [WorkhoursController::class, 'destroy'])->name('worked-hours.destroy');
+    Route::get('/generate-pdf', [WorkhoursController::class, 'generatePdf'])->name('generate.pdf');
+    // Settings routes
+    Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
+    Route::get('/settings/create', [SettingsController::class, 'create'])->name('settings.create');
+    Route::post('/settings', [SettingsController::class, 'store'])->name('settings.store');
+    Route::get('/settings/{settings}/edit', [SettingsController::class, 'edit'])->name('settings.edit');
+    Route::put('/settings/{settings}', [SettingsController::class, 'update'])->name('settings.update');
+    Route::get('/settings/{settings}/delete', [SettingsController::class, 'delete'])->name('settings.delete');
+    Route::delete('/settings/{settings}', [SettingsController::class, 'destroy'])->name('settings.destroy');
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
@@ -45,6 +55,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::delete('admin/users/{user}', [AdminController::class, 'destroy'])->name('admin.users.destroy');
     Route::put('admin/users/{user}', [AdminController::class, 'update'])->name('admin.users.update');
     Route::post('/admin/users/{user}/toggle-admin', [AdminController::class, 'toggleAdminStatus'])->name('admin.users.toggle-admin');
+  
 });
 
 require __DIR__.'/auth.php';

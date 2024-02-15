@@ -28,11 +28,10 @@
                         <th class="py-2 px-4 border-b">Datum</th>
                         <th class="py-2 px-4 border-b">Starttijd</th>
                         <th class="py-2 px-4 border-b">Eindtijd</th>
-                        <th class="py-2 px-4 border-b">Pauze</th>  
-                        <th class="py-2 px-4 border-b">Gewerkte Uren min de pauze</th>
+                        <th class="py-2 px-4 border-b">Pauze</th>
+                        <th class="py-2 px-4 border-b">Gewerkte Uren</th>
                         <th class="py-2 px-4 border-b">Taken</th>
                         <th class="py-2 px-4 border-b">Bijzonderheden</th>
-                        <!-- Voeg andere kolommen toe indien nodig -->
                         <th class="py-2 px-4 border-b">Acties</th>
                     </tr>
                 </thead>
@@ -42,7 +41,8 @@
                             <td class="py-2 px-4 border-b">{{ \Carbon\Carbon::parse($workhour->datum)->format('d-m-Y') }}</td>
                             <td class="py-2 px-4 border-b">{{ $workhour->start_tijd }}</td>
                             <td class="py-2 px-4 border-b">{{ $workhour->eind_tijd }}</td>
-                            <td class="py-2 px-4 border-b">{{ $workhour->gewerkte_uren }}</td>
+                            <td class="py-2 px-4 border-b">{{ $workhour->pauze }}</td>
+                            <td class="py-2 px-4 border-b">{{ $workhour->gewerkte_uren - $workhour->pauze }}</td>
                             <td class="py-2 px-4 border-b">{{ $workhour->taken }}</td>
                             <td class="py-2 px-4 border-b">{{ $workhour->bijzonderheden }}</td>
                             <td class="py-2 px-4 border-b">
@@ -55,6 +55,9 @@
                             </td>
                         </tr>
                     @endforeach
+                    <form method="GET" action="{{ route('generate.pdf') }}">
+                        <button type="submit" class="bg-green-500 text-white p-2 rounded-md">Genereer PDF</button>
+                    </form>
                 </tbody>
             </table>
         @endif
