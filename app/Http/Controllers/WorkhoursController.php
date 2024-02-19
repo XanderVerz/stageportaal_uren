@@ -120,8 +120,8 @@ class WorkhoursController extends Controller
     
         // Fetch the name of the authenticated user
         $userName = Auth::user()->name;
-    
-            $pdf = PDF::loadView('pdf.overview', compact('workedHours', 'settings', 'userName'));
+        $totalWorkedHours =$workedHours->sum('gewerkte_uren');
+            $pdf = PDF::loadView('pdf.overview', compact('workedHours', 'settings', 'userName', 'totalWorkedHours'));
         
             // Download the PDF
     

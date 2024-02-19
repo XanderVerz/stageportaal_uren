@@ -85,6 +85,9 @@
             @endforeach
         </tbody>
     </table>
+    <div>
+    <strong>Totaal gewerkte uren:</strong> {{ $totalWorkedHours }}
+</div>
 
     <!-- Aftekenvak -->
     <div class="signature-box">
