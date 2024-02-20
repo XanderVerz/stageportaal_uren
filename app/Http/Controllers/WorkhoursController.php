@@ -62,6 +62,7 @@ class WorkhoursController extends Controller
     {
         // Controleer of de huidige gebruiker de eigenaar is
         if ($workedHour->gebruiker_id === auth()->user()->id) {
+         
             return view('worked-hours.show', compact('workedHour'));
         } else {
             // Toon een foutbericht of doorsturen naar de juiste pagina

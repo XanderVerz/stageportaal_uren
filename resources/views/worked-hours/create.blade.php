@@ -18,21 +18,19 @@
             <!-- Starttijd -->
             <div class="mb-4">
                 <label for="start_tijd" class="block text-sm font-medium text-gray-600">Starttijd</label>
-                <input type="time" name="start_tijd" id="start_tijd" required class="mt-1 p-2 w-full border rounded-md">
+                <input type="time" name="start_tijd" id="start_tijd" value="{{ old('start_tijd', optional($settings)->start_tijd_standaard) }}" required class="mt-1 p-2 w-full border rounded-md">
             </div>
 
             <!-- Eindtijd -->
             <div class="mb-4">
                 <label for="eind_tijd" class="block text-sm font-medium text-gray-600">Eindtijd</label>
-                <input type="time" name="eind_tijd" id="eind_tijd" required class="mt-1 p-2 w-full border rounded-md">
+                <input type="time" name="eind_tijd" id="eind_tijd" value="{{ old('eind_tijd', optional($settings)->eind_tijd_standaard) }}" required class="mt-1 p-2 w-full border rounded-md">
             </div>
 
-         
-          
             <!-- Pauze -->
             <div class="mb-4">
                 <label for="pauze" class="block text-sm font-medium text-gray-600">Pauze (in uren)</label>
-                <input type="number" name="pauze" id="pauze" min="0" step="0.01" value="0" class="mt-1 p-2 w-full border rounded-md">
+                <input type="number" name="pauze" id="pauze" min="0" step="0.01" value="{{ old('pauze', optional($settings)->pauze_standaard) }}" class="mt-1 p-2 w-full border rounded-md">
             </div>
 
             <!-- Gewerkte uren (automatisch ingevuld) -->
@@ -44,13 +42,13 @@
             <!-- Taken -->
             <div class="mb-4">
                 <label for="taken" class="block text-sm font-medium text-gray-600">Taken</label>
-                <textarea name="taken" id="taken" class="mt-1 p-2 w-full border rounded-md"></textarea>
+                <textarea name="taken" id="taken" class="mt-1 p-2 w-full border rounded-md">{{ old('taken') }}</textarea>
             </div>
 
             <!-- Bijzonderheden -->
             <div class="mb-4">
                 <label for="bijzonderheden" class="block text-sm font-medium text-gray-600">Bijzonderheden</label>
-                <textarea name="bijzonderheden" id="bijzonderheden" class="mt-1 p-2 w-full border rounded-md"></textarea>
+                <textarea name="bijzonderheden" id="bijzonderheden" class="mt-1 p-2 w-full border rounded-md">{{ old('bijzonderheden') }}</textarea>
             </div>
 
             <!-- Submit knop -->
@@ -62,31 +60,31 @@
 
     <!-- JavaScript om gewerkte uren automatisch te berekenen -->
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const startTijdInput = document.getElementById('start_tijd');
-            const eindTijdInput = document.getElementById('eind_tijd');
-            const pauzeInput = document.getElementById('pauze');
-            const gewerkteUrenInput = document.getElementById('gewerkte_uren');
+    const startTijdInput = document.getElementById('start_tijd');
+        const eindTijdInput = document.getElementById('eind_tijd');
+        const pauzeInput = document.getElementById('pauze');
+        const gewerkteUrenInput = document.getElementById('gewerkte_uren');
 
-            function updateGewerkteUren() {
-                const startTijd = new Date(`2000-01-01 ${startTijdInput.value}`);
-                const eindTijd = new Date(`2000-01-01 ${eindTijdInput.value}`);
-                const pauze = parseFloat(pauzeInput.value) || 0; // Zorg ervoor dat pauze 0 is als het niet-numeriek is
-                const verschilInUren = ((eindTijd - startTijd) / (1000 * 60 * 60)) - pauze;
+        function updateGewerkteUren() {
+            const startTijd = new Date(`2000-01-01 ${startTijdInput.value}`);
+            const eindTijd = new Date(`2000-01-01 ${eindTijdInput.value}`);
+            const pauze = parseFloat(pauzeInput.value) || 0; // Zorg ervoor dat pauze 0 is als het niet-numeriek is
+            const verschilInUren = ((eindTijd - startTijd) / (1000 * 60 * 60)) - pauze;
 
-                // Controleer of het verschil in uren positief is voordat je de waarde toewijst
-                const gewerkteUren = verschilInUren >= 0 ? verschilInUren.toFixed(2) : 0;
+            // Controleer of het verschil in uren positief is voordat je de waarde toewijst
+            const gewerkteUren = verschilInUren >= 0 ? verschilInUren.toFixed(2) : 0;
 
-                // Vul het gewerkte_uren veld in met het berekende getal
-                gewerkteUrenInput.value = gewerkteUren;
+            // Vul het gewerkte_uren veld in met het berekende getal
+            gewerkteUrenInput.value = gewerkteUren;
 
-                // Optioneel: Verwijder de voorgaande invalid-klasse als die er is
-                gewerkteUrenInput.classList.remove('border', 'border-red-500');
-            }
+            // Optioneel: Verwijder de voorgaande invalid-klasse als die er is
+            gewerkteUrenInput.classList.remove('border', 'border-red-500');
+        }
 
-            startTijdInput.addEventListener('input', updateGewerkteUren);
-            eindTijdInput.addEventListener('input', updateGewerkteUren);
-            pauzeInput.addEventListener('input', updateGewerkteUren);
-        });
+        // Roep de functie aan bij het laden van de pagina om het initiële resultaat in te vullen
+        updateGewerkteUren();
+        startTijdInput.addEventListener('input', updateGewerkteUren);
+        eindTijdInput.addEventListener('input', updateGewerkteUren);
+        pauzeInput.addEventListener('input', updateGewerkteUren);
     </script>
 </x-layout>
