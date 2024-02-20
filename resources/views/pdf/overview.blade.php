@@ -77,7 +77,7 @@
                     <td>{{ $workhour->start_tijd }}</td>
                     <td>{{ $workhour->eind_tijd }}</td>
                     <td>{{ $workhour->pauze }}</td>
-                    <td>{{ $workhour->gewerkte_uren - $workhour->pauze }}</td>
+                    <td>{{ $workhour->gewerkte_uren }}</td>
                     <td>{{ $workhour->taken }}</td>
                     <td>{{ $workhour->bijzonderheden }}</td>
                   

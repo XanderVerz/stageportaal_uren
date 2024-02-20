@@ -14,8 +14,8 @@ class WorkhoursController extends Controller
     {
         // Toon alleen de gewerkte uren van de huidige gebruiker
         $workedHours = Workhours::where('gebruiker_id', auth()->user()->id)->get();
-
-        return view('worked-hours.index', compact('workedHours'));
+        $totalWorkedHours =$workedHours->sum('gewerkte_uren');
+        return view('worked-hours.index', compact('workedHours', 'totalWorkedHours'));
     }
 
     public function create()

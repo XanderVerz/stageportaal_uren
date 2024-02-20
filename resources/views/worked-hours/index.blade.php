@@ -42,7 +42,7 @@
                             <td class="py-2 px-4 border-b">{{ $workhour->start_tijd }}</td>
                             <td class="py-2 px-4 border-b">{{ $workhour->eind_tijd }}</td>
                             <td class="py-2 px-4 border-b">{{ $workhour->pauze }}</td>
-                            <td class="py-2 px-4 border-b">{{ $workhour->gewerkte_uren - $workhour->pauze }}</td>
+                            <td class="py-2 px-4 border-b">{{ $workhour->gewerkte_uren  }}</td>
                             <td class="py-2 px-4 border-b">{{ $workhour->taken }}</td>
                             <td class="py-2 px-4 border-b">{{ $workhour->bijzonderheden }}</td>
                             <td class="py-2 px-4 border-b">
@@ -54,12 +54,17 @@
                                 </form>
                             </td>
                         </tr>
+                       
                     @endforeach
-                    <form method="GET" action="{{ route('generate.pdf') }}">
-                        <button type="submit" class="bg-green-500 text-white p-2 rounded-md">Genereer PDF</button>
-                    </form>
+                
+              
                 </tbody>
             </table>
+        <div> <p class="text-lg font-semibold text-green-600">Totaal gewerkte uren: {{ $totalWorkedHours }} </p></div>
+        <form method="GET" action="{{ route('generate.pdf') }}">
+            <button type="submit" class="bg-green-500 text-white p-2 rounded-md">Genereer PDF</button>
+        </form> 
         @endif
+
     </div>
 </x-layout>

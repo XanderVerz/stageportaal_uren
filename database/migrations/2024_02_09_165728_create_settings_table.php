@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('gebruiker_id')->constrained('users');
+            $table->foreignId('gebruiker_id')->constrained('users')->onDelete('cascade');
             $table->time('start_tijd_standaard');
             $table->time('eind_tijd_standaard');
             $table->string('leerbedrijf');

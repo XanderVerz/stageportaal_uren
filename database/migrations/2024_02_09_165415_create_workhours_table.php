@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('workhours', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('gebruiker_id')->constrained('users');
+            $table->foreignId('gebruiker_id')->constrained('users')->onDelete('cascade');
             $table->date('datum');
             $table->time('start_tijd');
             $table->time('eind_tijd');
