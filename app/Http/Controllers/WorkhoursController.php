@@ -30,33 +30,33 @@ class WorkhoursController extends Controller
     {
         // Zorg ervoor dat het gebruikers-ID wordt ingesteld op het ID van de huidige gebruiker
         $request->merge(['gebruiker_id' => auth()->user()->id]);
-
+    
         // Haal de standaardinstellingen voor werktijden op
         $settings = Settings::where('gebruiker_id', auth()->user()->id)->first();
-
-        try {
+    
         // Voer validatie uit
         $validatedData = $request->validate([
             'datum' => 'required|date|unique:workhours,datum,NULL,id,gebruiker_id,' . auth()->id(),
-            'start_tijd' => 'required|date_format:H:i',
-            'eind_tijd' => 'required|date_format:H:i|after:start_tijd',
+            'start_tijd' => ($settings && $request->start_tijd != $settings->start_tijd_standaard) ? 'required|date_format:H:i' : '',
+            'eind_tijd' => ($settings && $request->eind_tijd != $settings->eind_tijd_standaard) ? 'required|date_format:H:i|after:start_tijd' : '',
             'vrije_dag' => 'nullable|boolean',
             'taken' => 'nullable|string',
             'bijzonderheden' => 'nullable|string',
             'gewerkte_uren' => 'required|numeric|min:0',
-            'pauze' => 'nullable|numeric|min:0',
+            'pauze' => ($settings && $request->pauze != $settings->pauze_standaard) ? 'required|numeric|min:0' : '',
         ]);
-     
-    } catch (ValidationException $e) {
-        return redirect()->back()->withErrors($e->errors())->withInput();
-    }
+    
+        // Voeg het gebruikers-ID toe aan de gevalideerde gegevens
         $validatedData['gebruiker_id'] = auth()->user()->id;
+    
         // Maak het worked hour object aan
         Workhours::create($validatedData);
-
+    
         // Redirect naar de juiste pagina
         return redirect()->route('dashboard')->with('success', 'Gewerkte uren toegevoegd.');
     }
+    
+    
 
     public function show(Workhours $workedHour)
     {
@@ -117,7 +117,7 @@ class WorkhoursController extends Controller
     {
         // Fetch only the data of the authenticated user
         $workedHours = Auth::user()->workedHours;
-        $settings = Settings::where('gebruiker_id', auth()->user()->id)->first(); 
+        $settings = Settings::where('gebruiker_id', auth()->user()->id)->first; 
     
         // Fetch the name of the authenticated user
         $userName = Auth::user()->name;
@@ -130,7 +130,7 @@ class WorkhoursController extends Controller
     
              return $pdf->stream('uren_en_taken_overzicht.pdf');
         } else {
-            return redirect()->route('dashboard')->with('error', 'Stel eerst de instellingen in.');
+            return redirect()->route('dashboard')->with('error', 'Stel eerst de instellingen in .');
         }
     }
 }

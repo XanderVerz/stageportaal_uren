@@ -60,24 +60,26 @@
 
     <!-- JavaScript om gewerkte uren automatisch te berekenen -->
     <script>
-    const startTijdInput = document.getElementById('start_tijd');
+        const startTijdInput = document.getElementById('start_tijd');
         const eindTijdInput = document.getElementById('eind_tijd');
         const pauzeInput = document.getElementById('pauze');
         const gewerkteUrenInput = document.getElementById('gewerkte_uren');
 
         function updateGewerkteUren() {
-            const startTijd = new Date(`2000-01-01 ${startTijdInput.value}`);
-            const eindTijd = new Date(`2000-01-01 ${eindTijdInput.value}`);
-            const pauze = parseFloat(pauzeInput.value) || 0; // Zorg ervoor dat pauze 0 is als het niet-numeriek is
+            const startTijdValue = startTijdInput.value || '{{ old('start_tijd', optional($settings)->start_tijd_standaard) }}';
+            const eindTijdValue = eindTijdInput.value || '{{ old('eind_tijd', optional($settings)->eind_tijd_standaard) }}';
+            const pauzeValue = pauzeInput.value || '{{ old('pauze', optional($settings)->pauze_standaard) }}';
+
+            const startTijd = new Date(`2000-01-01 ${startTijdValue}`);
+            const eindTijd = new Date(`2000-01-01 ${eindTijdValue}`);
+            const pauze = parseFloat(pauzeValue) || 0;
+
             const verschilInUren = ((eindTijd - startTijd) / (1000 * 60 * 60)) - pauze;
 
-            // Controleer of het verschil in uren positief is voordat je de waarde toewijst
             const gewerkteUren = verschilInUren >= 0 ? verschilInUren.toFixed(2) : 0;
 
-            // Vul het gewerkte_uren veld in met het berekende getal
             gewerkteUrenInput.value = gewerkteUren;
 
-            // Optioneel: Verwijder de voorgaande invalid-klasse als die er is
             gewerkteUrenInput.classList.remove('border', 'border-red-500');
         }
 

@@ -20,25 +20,25 @@
             <!-- Starttijd standaard -->
             <div class="mb-4">
                 <label for="start_tijd_standaard" class="block text-sm font-medium text-gray-600">Starttijd standaard</label>
-                <input type="time" name="start_tijd_standaard" id="start_tijd_standaard" required class="mt-1 p-2 w-full border rounded-md">
+                <input type="time" name="start_tijd_standaard" id="start_tijd_standaard" class="mt-1 p-2 w-full border rounded-md">
             </div>
 
             <!-- Eindtijd standaard -->
             <div class="mb-4">
                 <label for="eind_tijd_standaard" class="block text-sm font-medium text-gray-600">Eindtijd standaard</label>
-                <input type="time" name="eind_tijd_standaard" id="eind_tijd_standaard" required class="mt-1 p-2 w-full border rounded-md">
+                <input type="time" name="eind_tijd_standaard" id="eind_tijd_standaard"  class="mt-1 p-2 w-full border rounded-md">
             </div>
 
             <!-- Pauze standaard -->
             <div class="mb-4">
                 <label for="pauze_standaard" class="block text-sm font-medium text-gray-600">Pauze standaard (in uren)</label>
-                <input type="number" name="pauze_standaard" id="pauze_standaard" min="0" step="0.01" required class="mt-1 p-2 w-full border rounded-md">
+                <input type="number" name="pauze_standaard" id="pauze_standaard" min="0" step="0.01"class="mt-1 p-2 w-full border rounded-md">
             </div>
 
             <!-- Praktijkopleider -->
             <div class="mb-4">
                 <label for="praktijkopleider" class="block text-sm font-medium text-gray-600">Praktijkopleider</label>
-                <input type="text" name="praktijkopleider" id="praktijkopleider" required class="mt-1 p-2 w-full border rounded-md">
+                <input type="text" name="praktijkopleider" id="praktijkopleider" class="mt-1 p-2 w-full border rounded-md">
             </div>
 
             <!-- Stagebegeleider -->
