@@ -117,7 +117,7 @@ class WorkhoursController extends Controller
     {
         // Fetch only the data of the authenticated user
         $workedHours = Auth::user()->workedHours;
-        $settings = Settings::where('gebruiker_id', auth()->user()->id)->first; 
+        $settings = Settings::where('gebruiker_id', auth()->user()->id)->first(); 
     
         // Fetch the name of the authenticated user
         $userName = Auth::user()->name;
