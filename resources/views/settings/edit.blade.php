@@ -13,45 +13,45 @@
             </div>
         @endif
 
-        <form action="{{ route('settings.update', $settings) }}" method="post">
+        <form action="{{ route('settings.update') }}" method="post">
             @csrf
             @method('put')
 
             <!-- Starttijd standaard -->
             <div class="mb-4">
                 <label for="start_tijd_standaard" class="block text-sm font-medium text-gray-600">Starttijd standaard</label>
-                <input type="time" name="start_tijd_standaard" id="start_tijd_standaard" value="{{ old('start_tijd_standaard', $setting->start_tijd_standaard) }}" required class="mt-1 p-2 w-full border rounded-md">
+                <input type="time" name="start_tijd_standaard" id="start_tijd_standaard" required class="mt-1 p-2 w-full border rounded-md">
             </div>
 
             <!-- Eindtijd standaard -->
             <div class="mb-4">
                 <label for="eind_tijd_standaard" class="block text-sm font-medium text-gray-600">Eindtijd standaard</label>
-                <input type="time" name="eind_tijd_standaard" id="eind_tijd_standaard" value="{{ old('eind_tijd_standaard', $setting->eind_tijd_standaard) }}" required class="mt-1 p-2 w-full border rounded-md">
+                <input type="time" name="eind_tijd_standaard" id="eind_tijd_standaard" required class="mt-1 p-2 w-full border rounded-md">
             </div>
 
             <!-- Pauze standaard -->
             <div class="mb-4">
                 <label for="pauze_standaard" class="block text-sm font-medium text-gray-600">Pauze standaard (in uren)</label>
-                <input type="number" name="pauze_standaard" id="pauze_standaard" min="0" step="0.01" value="{{ old('pauze_standaard', $setting->pauze_standaard) }}" class="mt-1 p-2 w-full border rounded-md">
+                <input type="number" name="pauze_standaard" id="pauze_standaard" min="0" step="0.01" required class="mt-1 p-2 w-full border rounded-md">
             </div>
 
             <!-- Praktijkopleider -->
             <div class="mb-4">
                 <label for="praktijkopleider" class="block text-sm font-medium text-gray-600">Praktijkopleider</label>
-                <input type="text" name="praktijkopleider" id="praktijkopleider" value="{{ old('praktijkopleider', $setting->praktijkopleider) }}" required class="mt-1 p-2 w-full border rounded-md">
+                <input type="text" name="praktijkopleider" id="praktijkopleider" required class="mt-1 p-2 w-full border rounded-md">
             </div>
 
             <!-- Stagebegeleider -->
             <div class="mb-4">
                 <label for="stagebegeleider" class="block text-sm font-medium text-gray-600">Stagebegeleider</label>
-                <input type="text" name="stagebegeleider" id="stagebegeleider" value="{{ old('stagebegeleider', $setting->stagebegeleider) }}" required class="mt-1 p-2 w-full border rounded-md">
+                <input type="text" name="stagebegeleider" id="stagebegeleider" required class="mt-1 p-2 w-full border rounded-md">
             </div>
-            <!-- Praktijkopleider -->
-<!-- Leerbedrijf -->
-<div class="mb-4">
-    <label for="leerbedrijf" class="block text-sm font-medium text-gray-600">Leerbedrijf</label>
-    <input type="text" name="leerbedrijf" id="leerbedrijf" value="{{ old('leerbedrijf', $settings->leerbedrijf) }}" required class="mt-1 p-2 w-full border rounded-md">
-</div>
+            
+            <!-- Leerbedrijf -->
+            <div class="mb-4">
+                <label for="leerbedrijf" class="block text-sm font-medium text-gray-600">Leerbedrijf</label>
+                <input type="text" name="leerbedrijf" id="leerbedrijf" required class="mt-1 p-2 w-full border rounded-md">
+            </div>
 
             <!-- Submit knop -->
             <div class="mb-4">

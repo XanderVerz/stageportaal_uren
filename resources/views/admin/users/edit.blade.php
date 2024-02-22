@@ -19,6 +19,12 @@
                     <label for="email" class="block text-sm font-medium text-gray-600">Email</label>
                     <input type="email" name="email" id="email" value="{{ $user->email }}" class="mt-1 p-2 w-full border rounded-md">
                 </div>
+                <div class="mb-4">
+                    <label for="role" class="block text-sm font-medium text-gray-600">Rol</label>
+                    <select name="role" id="role" class="mt-1 p-2 w-full border rounded-md">
+                        <option value="admin" {{ $user->role === 'admin' ? 'selected' : '' }}>Admin</option>
+                        <option value="user" {{ $user->role === 'user' ? 'selected' : '' }}>User</option>
+                    </select>
                 <div>
                     <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded">
                         Bijwerken

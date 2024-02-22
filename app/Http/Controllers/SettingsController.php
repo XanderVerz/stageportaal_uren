@@ -7,38 +7,45 @@ use Illuminate\Http\Request;
 class SettingsController extends Controller
 {
 // SettingsController.php
-public function edit(Settings $settings)
+public function edit()
 {
     // Controleer of de huidige gebruiker de eigenaar is
-    if ($settings->gebruiker_id === auth()->user()->id) {
-        return view('settings.edit', compact('settings'));
-    } else {
-        // Toon een foutbericht of doorsturen naar de juiste pagina
-        return redirect()->route('dashboard')->with('error', 'Geen toegang tot deze instellingen.');
-    }
+        return view('settings.edit');
 }
 
-public function update(Request $request, Settings $settings)
-{
-    // Controleer of de huidige gebruiker de eigenaar is
-    if ($settings->gebruiker_id === auth()->user()->id) {
-        // Haal alle gegevens uit het verzoek
-        $data = $request->all();
+public function update(Request $request)
+{   
+// Controleer of de huidige gebruiker de eigenaar is
+if (isset(auth()->user()->id)) {
+    
+    // Haal alle gegevens uit het verzoek
+    $data = $request->all();
+    
+    // Voeg de gebruiker_id toe aan de gegevens
+    $data['gebruiker_id'] = auth()->user()->id;
 
+    // Zoek het Settings-model op basis van de gebruiker_id
+    $settings = Settings::where('gebruiker_id', auth()->user()->id)->first();
+
+    // Controleer of het instellingsmodel is gevonden
+    if ($settings) {
         // Update het Settings-model met de ontvangen gegevens
         $settings->update($data);
-
-        // Redirect naar de juiste pagina
         return redirect()->route('dashboard')->with('success', 'Instellingen bijgewerkt.');
     } else {
         // Toon een foutbericht of doorsturen naar de juiste pagina
-        return redirect()->route('dashboard')->with('error', 'Geen toegang tot deze instellingen.');
+        return redirect()->route('dashboard')->with('error', 'Instellingen niet gevonden.');
     }
+    }
+
+        // Redirect naar de juiste pagina
+        return redirect()->route('dashboard')->with('success', 'Instellingen bijgewerkt.');
 }
     // Toon alle instellingen
     public function index()
     {
-        $settings = Settings::all();
+        $settings = Settings::where('gebruiker_id', auth()->user()->id)->get()
+        ;
         return view('settings.index', compact('settings'));
     }
 

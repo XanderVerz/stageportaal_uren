@@ -38,8 +38,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::get('/settings/create', [SettingsController::class, 'create'])->name('settings.create');
     Route::post('/settings', [SettingsController::class, 'store'])->name('settings.store');
-    Route::get('/settings/{settings}/edit', [SettingsController::class, 'edit'])->name('settings.edit');
-    Route::put('/settings/{settings}', [SettingsController::class, 'update'])->name('settings.update');
+    Route::get('/settings/edit', [SettingsController::class, 'edit'])->name('settings.edit');
+    Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');
     Route::get('/settings/{settings}/delete', [SettingsController::class, 'delete'])->name('settings.delete');
     Route::delete('/settings/{settings}', [SettingsController::class, 'destroy'])->name('settings.destroy');
 });

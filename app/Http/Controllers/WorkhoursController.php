@@ -117,17 +117,21 @@ class WorkhoursController extends Controller
     {
         // Fetch only the data of the authenticated user
         $workedHours = Auth::user()->workedHours;
-        $settings = Settings::first(); 
+        $settings = Settings::where('gebruiker_id', auth()->user()->id)->first(); 
     
         // Fetch the name of the authenticated user
         $userName = Auth::user()->name;
         $totalWorkedHours =$workedHours->sum('gewerkte_uren');
+        // Controlleer of er instellingen zijn ingesteld
+        if (isset($settings)) {
             $pdf = PDF::loadView('pdf.overview', compact('workedHours', 'settings', 'userName', 'totalWorkedHours'));
         
             // Download the PDF
     
              return $pdf->stream('uren_en_taken_overzicht.pdf');
-     
+        } else {
+            return redirect()->route('dashboard')->with('error', 'Stel eerst de instellingen in.');
+        }
     }
 }
 

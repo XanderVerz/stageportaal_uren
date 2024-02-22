@@ -14,6 +14,7 @@
                         <th class="border p-2">ID</th>
                         <th class="border p-2">Naam</th>
                         <th class="border p-2">Email</th>
+                        <th class="border p-2">Rol</th>
                         <th class="border p-2">Acties</th>
                     </tr>
                 </thead>
@@ -23,10 +24,9 @@
                             <td class="border p-2">{{ $user->id }}</td>
                             <td class="border p-2">{{ $user->name }}</td>
                             <td class="border p-2">{{ $user->email }}</td>
+                            <td class="border p-2">{{ $user->role }}</td>
+
                             <td class="border p-2">
-                                <a href="{{ route('admin.users.show', $user->id) }}" class="bg-green-500 hover:bg-green-700 text-white px-2 py-1 rounded mr-2">
-                                    Bekijken
-                                </a>
                                 <a href="{{ route('admin.users.edit', $user->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white px-2 py-1 rounded mr-2">
                                     Bewerken
                                 </a>

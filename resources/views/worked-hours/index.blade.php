@@ -12,6 +12,11 @@
                 {{ session('success') }}
             </div>
         @endif
+        @if (session('error'))
+            <div class="bg-red-200 p-2 mb-4">
+                {{ session('error') }}
+            </div>
+        @endif
 
         <!-- Toevoegen knop -->
         <div class="mb-4">

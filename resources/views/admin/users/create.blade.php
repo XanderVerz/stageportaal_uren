@@ -22,6 +22,12 @@
                     <label for="password" class="block text-sm font-medium text-gray-600">Wachtwoord</label>
                     <input type="password" name="password" id="password" class="mt-1 p-2 w-full border rounded-md">
                 </div>
+                <div class="mb-4">
+                    <label for="role" class="block text-sm font-medium text-gray-600">Rol</label>
+                    <select name="role" id="role" class="mt-1 p-2 w-full border rounded-md">
+                        <option value="admin">Admin</option>
+                        <option value="user">User</option>
+                    </select>
                 <div>
                     <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded">
                         Opslaan

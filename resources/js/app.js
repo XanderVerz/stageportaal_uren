@@ -1,7 +1,8 @@
 import './bootstrap';
 
-import Alpine from 'alpinejs';
+window.Alpine = require('alpinejs');
 
-window.Alpine = Alpine;
 
-Alpine.start();
+document.addEventListener('DOMContentLoaded', function () {
+    Alpine.start();
+});

@@ -18,9 +18,13 @@
                 <strong>Stagebegeleider:</strong> {{ $settings->first()->stagebegeleider }}<br>
                 <strong>Leerbedrijf:</strong> {{ $settings->first()->leerbedrijf }}<br>
             </div>
+            <div class="mb-4">
+       
+
         @else
             <p>Geen instellingen gevonden.</p> <br> <br>
             <a href="{{ route('settings.create') }}" class="bg-blue-500 text-white p-2 rounded-md">Toevoegen</a>
         @endif
     </div>
+    <a href="{{ route('settings.edit')}}" class="bg-blue-500 text-white p-2 rounded-md">Bewerk</a>
 </x-layout>

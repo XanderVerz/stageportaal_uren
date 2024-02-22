@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Hash;
 class AdminController extends Controller
 {
     public function index()
@@ -21,10 +21,23 @@ class AdminController extends Controller
     public function store(Request $request)
     {
         // Validatie toevoegen indien nodig
-        User::create($request->all());
+            $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|string|min:8',
+            'role' => 'required|string|in:admin,user',
+        ]);
 
-        return redirect()->route('admin.users.index')
-            ->with('success', 'Gebruiker is succesvol toegevoegd.');
+            // Voeg het gehashte wachtwoord toe aan de data
+            $data['password'] = Hash::make($data['password']);
+        
+            
+        
+            // Maak de gebruiker aan
+            User::create($data);
+        
+            return redirect()->route('dashboard')
+                ->with('success', 'Gebruiker is succesvol toegevoegd.');
     }
 
     public function show($id)
